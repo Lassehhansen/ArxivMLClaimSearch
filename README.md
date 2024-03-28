@@ -74,8 +74,14 @@ python neurips_scraper.py -start 1987 -end 2019 -folder data -filename neurIPS_p
    
 ## Data Sharing and Collaborative Review
 
-*   **Google Docs for Collaboration:** All identified papers, along with their respective Arxiv IDs and the claims found by GPT-4.0 Turbo, have been compiled in a shared Google document for collaborative review and analysis.
+*   **Google Docs for Collaboration:** All identified papers, along with their respective Arxiv IDs and the claims found by GPT-4 Turbo, have been compiled in a shared Google document for collaborative review and analysis.
 *   **Color-Coding for Agreement:** Team members were encouraged to review the listed papers and color-code them based on their alignment with our research focus: green for papers supporting our interest points and red for those that do not align.
+
+## Model versions used
+
+- "gpt-3.5-turbo-1106"
+- "gpt-4-0125-preview"
+
 
 ## System Prompt for GPT Assisted Research
 
@@ -123,9 +129,9 @@ Output: {"claims": [{"claim": "AUPRC is superior to AUROC for imbalanced data", 
 """
 ```
 
-Further, a user prompt was added in the 4.0 search to enhance the search. A prompt was added before the context window of a text and after the context window.
-
 ### User Prompt GPT 4.0 Assisted Research
+
+Additionally, a user prompt was introduced in the GPT 4.0 search to refine the search criteria further. This includes an introduction statement before the context window of a text and a concluding statement afterward.
 
 ```bash
 introduction_statement_prompt = """
