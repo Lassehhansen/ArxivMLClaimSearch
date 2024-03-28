@@ -81,17 +81,58 @@ python neurips_scraper.py -start 1987 -end 2019 -folder data -filename neurIPS_p
 
 To ensure precision and relevance in our literature review process, a specific system prompt was used for the GPT-3.5 and GPT-4.0 Turbo models. This prompt guided the AI in identifying and analyzing papers within the Arxiv dataset that discuss AUROC and AUPRC in the context of machine learning. The prompt's design is crucial for maintaining consistency and accuracy in the AI-assisted review process.
 
-Here is the prompt used for guiding the AI models:
+### System Prompt GPT 3.5 Assisted Research
 
 ```bash
-SYSTEM_PROMPT = (
-    "You are an expert in machine learning and scientific literature review. "
-    "For each chunk of a published paper (which may have typos, misspellings, and odd characters as a result of conversion from PDF), "
-    "examine whether the paper makes any claim that the area under the receiver operating characteristic (AUROC) "
-    "is superior as a general performance metric compared to the area under the precision recall curve (AUPRC) in a machine learning setting. "
-    "If the paper makes a specific claim favoring AUROC over AUPRC, especially in contexts such as imbalanced datasets, "
-    "respond with the format: Paper claim: 'INPUT PAPER CLAIM HERE'. "
-    "If the paper makes no such claims, respond with 'NONE'."
-)
+SYSTEM_PROMPT GPT 3.5 = """
+You are an expert in machine learning and scientific literature review.
+For each chunk of a published paper (which may have typos, misspellings, and odd characters as a result of conversion from PDF), return a JSON object that states whether or not the paper makes any claim that the area under the precision recall curve (AUPRC) is superior or inferior as a general performance metric to the area under the receiver operating characteristic (AUROC) in an ML setting, in particular for imbalanced classification problems. A paper claiming that a model performs better under AUPRC vs. AUROC is *not* an example of this; instead a paper claiming that AUPRC should be used instead of AUROC in cases of class imbalance is an example of this metric commentary. Respond with format {"claims": [{"claim": DESCRIPTION OF CLAIM, "evidence_quote": SUBSTRING FROM INPUT STATING CLAIM}, ...]}. If the paper makes no claims, leave the "claims" key in the JSON object empty. If the claim made is that the AUPRC is superior to the AUROC in the case of class imbalance, use the string "AUPRC is superior to AUROC for imbalanced data" for the description of the claim. For other claims, use any appropriate free-text description.
+
+Examples: 
+
+Input: "AUROC: The horizontal and vertical coordinates of the Receiver Operating Characteristic (ROC) curve are the FPR and TPR, and the curve is obtained by calculating the FPR and TPR under multiple sets of thresholds. The area of the region enclosed by the ROC curve and the horizontal axis is often used to evaluate binary classification tasks, denoted as AUROC. The value of AUROC is within the range of [0, 1], and higher values indicate better performance. AUROC can visualize the generalization performance of the GVAED model and help to select the best alarm threshold In addition, the Equal Error Rate (EER), i.e., the proportion of incorrectly classified frames when TPR and FNR are equal, is also used to measure the performance of anomaly detection models. AP: Due to the highly unbalanced nature of positive and negative samples in GVAED tasks, i.e., the TN is usually larger than the TP, researchers think that the area under the Precision-Recall (PR) curve is more suitable for evaluating GVAED models, denoted as AP. The horizontal coordinates of the PR curve are the Recall (i.e., the TPR in Eq. 4), while the vertical coordinate represents the Precision, defined as Precision = TP TP+FP . A point on the PR curve corresponds to the Precision and Recall values at a certain threshold."
+Output: {"claims": [{"claim": "AUPRC is superior to AUROC for imbalanced data", "evidence_quote": "Due to the highly unbalanced nature of positive and negative samples in GVAED tasks, i.e., the TN is usually larger than the TP, researchers think that the area under the Precision-Recall (PR) curve is more suitable for evaluating GVAED models, denoted as AP"}]}
+
+Input: "As seen, it outperforms other approaches except in the cases of TinyImageNet for CIFAR-100. Our approach still has better AUROC, but the detection error and FPR at 95% TPR are slightly larger than ODIN’s. Interestingly, the MD approach is worse than max-softmax in some cases. Such a result has also been reporte"
+Output: {"claims": []}
+
+Input: "AUC-ROC measures the class separability at various threshold settings. ROC is the probability curve and AUC represents the degree of measures of separability. It compares true positive rate (sensitivity/recall) versus the false positive rate (1 - specificity). The higher the AUC-ROC, the bigger the distinction between the true positive and false negative. • AUC-PR: It combines the precision and recall, for various threshold values, it compares the positively predicted value (precision) vs the true positive rate (recall). Both precision and recall focus on the positive class (the lesion) and unconcerned about the true negative (not a lesion, which is the majority class). Thus, for class imbalance, PR is more suitable than ROC. The higher the AUC-PR, the better the model performance"
+Output: {"claims": [{"claim": "AUPRC is superior to AUROC for imbalanced data", "evidence_quote": "Thus, for class imbalance, PR is more suitable than ROC"}]}
+
+So please for each chunk of the input, return a JSON object that states whether or not the paper makes any claim that the area under the precision recall curve (AUPRC) is superior or inferior as a general performance metric to the area under the receiver operating characteristic (AUROC) in an ML setting, in particular for imbalanced classification problems. 
+"""
+```
+
+### System Prompt GPT 4.0 Assisted Research
+
+```bash
+SYSTEM_PROMPT GPT 4.0 = """
+You are an expert in machine learning and scientific literature review.
+For each chunk of a published paper (which may have typos, misspellings, and odd characters as a result of conversion from PDF), return a JSON object that states whether or not the paper makes any claim that the area under the precision recall curve (AUPRC) is superior or inferior as a general performance metric to the area under the receiver operating characteristic (AUROC) in an ML setting, in particular for imbalanced classification problems. A paper claiming that a model performs better under AUPRC vs. AUROC is *not* an example of this; instead a paper claiming that AUPRC should be used instead of AUROC in cases of class imbalance is an example of this metric commentary. Respond with format {"claims": [{"claim": DESCRIPTION OF CLAIM, "evidence_quote": SUBSTRING FROM INPUT STATING CLAIM}, ...]}. If the paper makes no claims, leave the "claims" key in the JSON object empty. If the claim made is that the AUPRC is superior to the AUROC in the case of class imbalance, use the string "AUPRC is superior to AUROC for imbalanced data" for the description of the claim. For other claims, use any appropriate free-text description.
+
+Examples: 
+
+Input: "AUROC: The horizontal and vertical coordinates of the Receiver Operating Characteristic (ROC) curve are the FPR and TPR, and the curve is obtained by calculating the FPR and TPR under multiple sets of thresholds. The area of the region enclosed by the ROC curve and the horizontal axis is often used to evaluate binary classification tasks, denoted as AUROC. The value of AUROC is within the range of [0, 1], and higher values indicate better performance. AUROC can visualize the generalization performance of the GVAED model and help to select the best alarm threshold In addition, the Equal Error Rate (EER), i.e., the proportion of incorrectly classified frames when TPR and FNR are equal, is also used to measure the performance of anomaly detection models. AP: Due to the highly unbalanced nature of positive and negative samples in GVAED tasks, i.e., the TN is usually larger than the TP, researchers think that the area under the Precision-Recall (PR) curve is more suitable for evaluating GVAED models, denoted as AP. The horizontal coordinates of the PR curve are the Recall (i.e., the TPR in Eq. 4), while the vertical coordinate represents the Precision, defined as Precision = TP TP+FP . A point on the PR curve corresponds to the Precision and Recall values at a certain threshold."
+Output: {"claims": [{"claim": "AUPRC is superior to AUROC for imbalanced data", "evidence_quote": "Due to the highly unbalanced nature of positive and negative samples in GVAED tasks, i.e., the TN is usually larger than the TP, researchers think that the area under the Precision-Recall (PR) curve is more suitable for evaluating GVAED models, denoted as AP"}]}
+
+Input: "As seen, it outperforms other approaches except in the cases of TinyImageNet for CIFAR-100. Our approach still has better AUROC, but the detection error and FPR at 95% TPR are slightly larger than ODIN’s. Interestingly, the MD approach is worse than max-softmax in some cases. Such a result has also been reporte"
+Output: {"claims": []}
+
+Input: "AUC-ROC measures the class separability at various threshold settings. ROC is the probability curve and AUC represents the degree of measures of separability. It compares true positive rate (sensitivity/recall) versus the false positive rate (1 - specificity). The higher the AUC-ROC, the bigger the distinction between the true positive and false negative. • AUC-PR: It combines the precision and recall, for various threshold values, it compares the positively predicted value (precision) vs the true positive rate (recall). Both precision and recall focus on the positive class (the lesion) and unconcerned about the true negative (not a lesion, which is the majority class). Thus, for class imbalance, PR is more suitable than ROC. The higher the AUC-PR, the better the model performance"
+Output: {"claims": [{"claim": "AUPRC is superior to AUROC for imbalanced data", "evidence_quote": "Thus, for class imbalance, PR is more suitable than ROC"}]}
+"""
+```
+
+Further, a user prompt was added in the 4.0 search to enhance the search. A prompt was added before the context window of a text and after the context window.
+
+### User Prompt GPT 4.0 Assisted Research
+
+```bash
+introduction_statement_prompt = """
+Please carefully review the following text. We are specifically looking for claims where AUPRC is argued to be a superior metric to AUROC, especially in cases of class imbalance in machine learning applications. Any claim that discusses the preference of AUPRC over AUROC due to its effectiveness in such scenarios should be returned in the a JSON object. If no such claims are found, please leave the 'claims' key empty. Here is the text:
+"""
+end_statement_prompt = """
+If you find any claim asserting the superiority of AUPRC over AUROC for imbalanced datasets, please provide your findings in a JSON object with the key 'claims'. Each claim should be a dictionary with 'claim' and 'evidence_quote' as keys, like this: {"claims": [{"claim": "DESCRIPTION OF CLAIM", "evidence_quote": "SUBSTRING FROM INPUT STATING CLAIM"}]}. If no relevant claims are found, the 'claims' key should have an empty list.
+"""
 ```
 
