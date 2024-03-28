@@ -66,11 +66,17 @@ python neurips_scraper.py -start 1987 -end 2019 -folder data -filename neurIPS_p
 2. Out of a total of 9,680 texts, 78 were found to contain keywords from AUPRC and AUROC.
 3. Using GPT-4, 6 relevant papers were identified for our thesis.
 
-## Keyword Filtering
+## Keyword Filtering -> This is Version 1
 
 1.  **Creation of Keyword Lists:** : Two separate lists of keywords were created for AUROC and AUPRC, respectively. These lists are crucial in identifying relevant papers in the datasets, and can be found in the folder 'keywords'.
 2.  **Script-Driven Search:** We used Python scripts to automate the search through the datasets. The scripts scanned the texts for occurrences of the keywords from both lists.
-3.  **Dual Mention Filtering:** Papers that mentioned both AUROC and AUPRC were specifically filtered to ensure relevance to our research question. T
+3.  **Dual Mention Filtering:** Papers that mentioned both AUROC and AUPRC were specifically filtered to ensure relevance to our research question.
+
+## Regex-Based Filtering - Version 2
+
+1.  **Compiling Regular Expressions** : We developed two sets of regular expressions tailored for AUROC and AUPRC, respectively. These expressions are designed to capture variations and contexts in which these terms appear within the texts, thereby improving the precision of our search. The compiled regex patterns for both AUROC and AUPRC can be found in the regex_definitions.py module.
+2. **Automated Regex Search** : Utilizing Python, we implemented scripts that leverage the re library to systematically search the datasets. These scripts employ the compiled regular expressions to identify instances of AUROC and AUPRC mentions, accounting for the diverse ways these terms can be presented in the literature.
+3. **Contextual and Dual Mention Identification** : To enhance the relevance of our findings, we not only looked for papers that mention either AUROC or AUPRC but also employed additional logic to filter for documents that discuss both terms. This step ensures that the selected papers are highly pertinent to our research objectives. Furthermore, by applying regex, we're able to extract and analyze the context surrounding these mentions, providing deeper insights into how these metrics are discussed and applied in the field. 
 
 ## AI-Assisted Review
 
