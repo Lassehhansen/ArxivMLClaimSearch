@@ -23,14 +23,22 @@ while read line; do
 done < arxiv_urls.txt
 ```
 
-## arXiv Dataset description
-
+## arXiv v1 Search Data Description
 - 93.8 GB
 - Total number of texts in JSONL files: 1558306
 - Total number of texts that contain either AUROC OR AUPRC related keywords: 16022
 - Total number of texts that contain both: 8244
 - Texts after GPT 3.5 search: 2728
 - Texts after GPT 4.0 Turbo search: 201
+
+## arXiv v2 Search Data Description
+- 93.8 GB
+- Total number of texts in JSONL files: 1558306
+- Total number of texts that contain either AUROC OR AUPRC related keywords: 51816
+- Total number of texts that contain both: 4606
+    - This gives 29498 Context Windows 
+- Texts after GPT 3.5 search: 3472
+- Texts after GPT 4.0 Turbo search: 576
 
 ## NeurIPS Scraper and Dataset
 
