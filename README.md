@@ -72,7 +72,7 @@ python neurips_scraper.py -start 1987 -end 2019 -folder data -filename neurIPS_p
 2.  **Script-Driven Search:** We used Python scripts to automate the search through the datasets. The scripts scanned the texts for occurrences of the keywords from both lists.
 3.  **Dual Mention Filtering:** Papers that mentioned both AUROC and AUPRC were specifically filtered to ensure relevance to our research question.
 
-## Regex-Based Filtering - Version 2
+## Regex-Based Filtering - This is Version 2
 
 1.  **Compiling Regular Expressions** : We developed two sets of regular expressions tailored for AUROC and AUPRC, respectively. These expressions are designed to capture variations and contexts in which these terms appear within the texts, thereby improving the precision of our search. The compiled regex patterns for both AUROC and AUPRC can be found in the regex_definitions.py module.
 2. **Automated Regex Search** : Utilizing Python, we implemented scripts that leverage the re library to systematically search the datasets. These scripts employ the compiled regular expressions to identify instances of AUROC and AUPRC mentions, accounting for the diverse ways these terms can be presented in the literature.
