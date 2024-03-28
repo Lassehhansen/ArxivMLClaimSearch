@@ -54,12 +54,17 @@ To complement our research from Arxiv, we also developed a scraper for the NeurI
 python neurips_scraper.py -start 1987 -end 2019 -folder data -filename neurIPS_papers.jsonl
 ```
 
-### NeurIPS Dataset Overview
+### NeurIPS Search Data Description V1
+
+1. Papers scraped between 1987 and 2019.
+2. Out of a total of 9,680 texts, 91 were found to contain keywords from AUPRC and AUROC.
+3. Using GPT-4, 6 relevant papers were identified to be relevant.
+   
+### NeurIPS Search Data Description V2
 
 1. Papers scraped between 1987 and 2019.
 2. Out of a total of 9,680 texts, 78 were found to contain keywords from AUPRC and AUROC.
-3. Using GPT-4, 2 relevant papers were identified for our thesis.
-    
+3. Using GPT-4, 6 relevant papers were identified for our thesis.
 
 ## Keyword Filtering
 
